@@ -1,0 +1,108 @@
+.tool-card {
+    @apply bg-white rounded-xl shadow-md p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+}
+
+.card-icon {
+    @apply w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl mb-4;
+}
+
+.max-h-90vh {
+    max-height: 90vh;
+}
+
+.max-h-70vh {
+    max-height: 70vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c5c5c5;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Dropzone styling */
+.dropzone {
+    @apply border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer transition-colors duration-300;
+}
+
+.dropzone.active {
+    @apply border-blue-500 bg-blue-50;
+}
+
+/* Preview image grid */
+.preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.preview-item {
+    position: relative;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.preview-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.preview-item .remove-btn {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* Cloud storage file tree */
+.file-tree {
+    @apply border rounded-lg p-4 bg-gray-50;
+}
+
+.file-item, .folder-item {
+    @apply py-2 px-3 rounded flex items-center cursor-pointer;
+}
+
+.file-item:hover, .folder-item:hover {
+    @apply bg-gray-200;
+}
+
+.file-item i {
+    @apply text-blue-500 mr-2;
+}
+
+.folder-item i {
+    @apply text-yellow-500 mr-2;
+}
+
+/* Progress bar */
+.progress-bar {
+    @apply w-full bg-gray-200 rounded-full h-2.5;
+}
+
+.progress-bar div {
+    @apply bg-blue-600 h-2.5 rounded-full;
+}
