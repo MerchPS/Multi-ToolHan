@@ -6,7 +6,182 @@
     <title>MultiTools - All-in-One Web Tools</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <style>
+        /* Custom Styles untuk MultiTools */
+        .tool-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .tool-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-4px);
+        }
+        
+        .card-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .max-h-90vh {
+            max-height: 90vh;
+        }
+        
+        .max-h-70vh {
+            max-height: 70vh;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c5c5c5;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        /* Dropzone styling */
+        .dropzone {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .dropzone.active {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        
+        /* Preview image grid */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .preview-item {
+            position: relative;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .preview-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .preview-item .remove-btn {
+            position: absolute;
+            top: 0.25rem;
+            right: 0.25rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        /* Cloud storage file tree */
+        .file-tree {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            background-color: #f9fafb;
+        }
+        
+        .file-item, .folder-item {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .file-item:hover, .folder-item:hover {
+            background-color: #e5e7eb;
+        }
+        
+        .file-item i {
+            color: #3b82f6;
+            margin-right: 0.5rem;
+        }
+        
+        .folder-item i {
+            color: #eab308;
+            margin-right: 0.5rem;
+        }
+        
+        /* Progress bar */
+        .progress-bar {
+            width: 100%;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            height: 0.625rem;
+        }
+        
+        .progress-bar div {
+            background-color: #2563eb;
+            height: 0.625rem;
+            border-radius: 9999px;
+        }
+        
+        /* Animasi fade-in */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .tool-card {
+                padding: 1rem;
+            }
+            
+            .card-icon {
+                width: 3rem;
+                height: 3rem;
+                font-size: 1.25rem;
+            }
+            
+            .preview-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
     <header class="bg-blue-600 text-white shadow-lg">
@@ -19,39 +194,39 @@
     <main class="container mx-auto px-4 py-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- Humanize Teks Card -->
-            <div class="tool-card" data-tool="humanize">
+            <div class="tool-card fade-in" data-tool="humanize">
                 <div class="card-icon bg-blue-500">
                     <i class="fas fa-language"></i>
                 </div>
-                <h3>Humanize Teks</h3>
-                <p>Ubah teks AI menjadi lebih alami seperti manusia</p>
+                <h3 class="text-lg font-semibold text-gray-800">Humanize Teks</h3>
+                <p class="text-gray-600 mt-2">Ubah teks AI menjadi lebih alami seperti manusia</p>
             </div>
 
             <!-- Image To PDF Card -->
-            <div class="tool-card" data-tool="img2pdf">
+            <div class="tool-card fade-in" data-tool="img2pdf">
                 <div class="card-icon bg-green-500">
                     <i class="fas fa-file-pdf"></i>
                 </div>
-                <h3>Image To PDF</h3>
-                <p>Konversi gambar ke PDF dengan peningkatan kualitas</p>
+                <h3 class="text-lg font-semibold text-gray-800">Image To PDF</h3>
+                <p class="text-gray-600 mt-2">Konversi gambar ke PDF dengan peningkatan kualitas</p>
             </div>
 
             <!-- PDF To Image Card -->
-            <div class="tool-card" data-tool="pdf2img">
+            <div class="tool-card fade-in" data-tool="pdf2img">
                 <div class="card-icon bg-red-500">
                     <i class="fas fa-file-image"></i>
                 </div>
-                <h3>PDF To Image</h3>
-                <p>Konversi PDF ke gambar dengan kualitas yang dapat disesuaikan</p>
+                <h3 class="text-lg font-semibold text-gray-800">PDF To Image</h3>
+                <p class="text-gray-600 mt-2">Konversi PDF ke gambar dengan kualitas yang dapat disesuaikan</p>
             </div>
 
             <!-- Cloud Storage Card -->
-            <div class="tool-card" data-tool="cloud">
+            <div class="tool-card fade-in" data-tool="cloud">
                 <div class="card-icon bg-purple-500">
                     <i class="fas fa-cloud"></i>
                 </div>
-                <h3>Cloud Storage</h3>
-                <p>Penyimpanan cloud pribadi dengan manajemen file</p>
+                <h3 class="text-lg font-semibold text-gray-800">Cloud Storage</h3>
+                <p class="text-gray-600 mt-2">Penyimpanan cloud pribadi dengan manajemen file</p>
             </div>
         </div>
 
@@ -80,12 +255,62 @@
     </div>
 
     <!-- Scripts -->
-    <script src="./assets/js/utils.js"></script>
-    <script src="./assets/js/humanize.js"></script>
-    <script src="./assets/js/img2pdf.js"></script>
-    <script src="./assets/js/pdf2img.js"></script>
-    <script src="./assets/js/cloud.js"></script>
     <script>
+        // Utility functions used across the application
+        const utils = {
+            // Debounce function to limit how often a function can fire
+            debounce: function(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            },
+            
+            // Format file size to human readable format
+            formatFileSize: function(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            },
+            
+            // Generate a unique ID
+            generateId: function() {
+                return Date.now().toString(36) + Math.random().toString(36).substr(2);
+            },
+            
+            // Validate email format
+            isValidEmail: function(email) {
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            },
+            
+            // Get device fingerprint
+            getDeviceFingerprint: function() {
+                const fingerprint = {
+                    userAgent: navigator.userAgent,
+                    language: navigator.language,
+                    colorDepth: screen.colorDepth,
+                    pixelDepth: screen.pixelDepth,
+                    resolution: `${screen.width}x${screen.height}`,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    plugins: Array.from(navigator.plugins).map(p => p.name).join(','),
+                    localStorage: !!window.localStorage,
+                    sessionStorage: !!window.sessionStorage,
+                    indexedDB: !!window.indexedDB,
+                    touchSupport: 'ontouchstart' in window || navigator.maxTouchPoints > 0
+                };
+                
+                return btoa(JSON.stringify(fingerprint));
+            }
+        };
+
         // Event listeners untuk card tools
         document.querySelectorAll('.tool-card').forEach(card => {
             card.addEventListener('click', () => {
@@ -145,6 +370,584 @@
 
         function hideLoading() {
             document.getElementById('loading').classList.add('hidden');
+        }
+
+        // HTML template for humanize tool
+        function getHumanizeHTML() {
+            return `
+            <div class="space-y-6">
+                <div>
+                    <label for="text-input" class="block text-sm font-medium text-gray-700 mb-1">Masukkan teks untuk dianalisis:</label>
+                    <textarea id="text-input" rows="6" class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Tulis atau tempel teks di sini..."></textarea>
+                </div>
+                
+                <div class="flex space-x-4">
+                    <button id="analyze-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        <i class="fas fa-search mr-2"></i>Analyze
+                    </button>
+                    <button id="humanize-btn" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                        <i class="fas fa-magic mr-2"></i>Humanize
+                    </button>
+                </div>
+                
+                <div id="analysis-result" class="hidden">
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Hasil Analisis</h3>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div id="ai-score-bar" class="bg-red-600 h-2.5 rounded-full"></div>
+                            </div>
+                            <span id="ai-score-text" class="ml-4 text-sm font-medium text-gray-700">0% AI</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="text-sm font-medium text-gray-700">Karakteristik AI Terdeteksi:</h4>
+                                <ul id="ai-characteristics" class="mt-2 text-sm text-gray-600 space-y-1"></ul>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-medium text-gray-700">Saran Perbaikan:</h4>
+                                <ul id="improvement-suggestions" class="mt-2 text-sm text-gray-600 space-y-1"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="humanized-result" class="hidden">
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Teks yang Dihumanisasi</h3>
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                        <p id="humanized-text" class="text-gray-800"></p>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button id="copy-humanized" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            <i class="fas fa-copy mr-2"></i>Salin Teks
+                        </button>
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+
+        // Initialize humanize tool
+        function initHumanize() {
+            const analyzeBtn = document.getElementById('analyze-btn');
+            const humanizeBtn = document.getElementById('humanize-btn');
+            const copyBtn = document.getElementById('copy-humanized');
+            
+            analyzeBtn.addEventListener('click', analyzeText);
+            humanizeBtn.addEventListener('click', humanizeText);
+            
+            if (copyBtn) {
+                copyBtn.addEventListener('click', copyHumanizedText);
+            }
+        }
+
+        // Analyze text for AI characteristics
+        function analyzeText() {
+            const textInput = document.getElementById('text-input').value.trim();
+            
+            if (!textInput) {
+                alert('Silakan masukkan teks terlebih dahulu!');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loading').classList.remove('hidden');
+            
+            // Simulate analysis (in a real app, this would be more sophisticated)
+            setTimeout(() => {
+                const analysisResult = analyzeTextForAI(textInput);
+                displayAnalysisResult(analysisResult);
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+        }
+
+        // Analyze text for AI characteristics
+        function analyzeTextForAI(text) {
+            // Heuristic analysis of text
+            const words = text.split(/\s+/);
+            const sentences = text.split(/[.!?]+/).filter(s => s.length > 0);
+            const wordCount = words.length;
+            const sentenceCount = sentences.length;
+            const avgSentenceLength = wordCount / sentenceCount;
+            
+            // Check for repetition
+            const wordFrequency = {};
+            words.forEach(word => {
+                const cleanWord = word.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
+                if (cleanWord.length > 3) {
+                    wordFrequency[cleanWord] = (wordFrequency[cleanWord] || 0) + 1;
+                }
+            });
+            
+            // Calculate repetition score
+            const repetitionScore = Object.values(wordFrequency).reduce((sum, freq) => {
+                return sum + (freq > 3 ? 1 : 0);
+            }, 0) / Object.keys(wordFrequency).length;
+            
+            // Check for common AI phrases
+            const aiPhrases = [
+                'as an ai', 'as a language model', 'as an artificial intelligence',
+                'however, it is important to', 'additionally, it is worth noting',
+                'moreover, it should be mentioned', 'in conclusion', 'furthermore'
+            ];
+            
+            let aiPhraseCount = 0;
+            const lowerText = text.toLowerCase();
+            aiPhrases.forEach(phrase => {
+                if (lowerText.includes(phrase)) {
+                    aiPhraseCount++;
+                }
+            });
+            
+            // Calculate AI likelihood score (0-100)
+            let aiScore = 0;
+            
+            // Sentence length factor (AI tends to have more uniform sentence lengths)
+            if (avgSentenceLength > 15 && avgSentenceLength < 25) {
+                aiScore += 20;
+            }
+            
+            // Repetition factor
+            aiScore += Math.min(30, repetitionScore * 100);
+            
+            // AI phrases factor
+            aiScore += Math.min(30, aiPhraseCount * 10);
+            
+            // Entropy factor (AI text often has lower character entropy)
+            const entropy = calculateEntropy(text);
+            if (entropy < 4) {
+                aiScore += 20;
+            }
+            
+            aiScore = Math.min(100, Math.max(0, aiScore));
+            
+            // Generate characteristics and suggestions
+            const characteristics = [];
+            const suggestions = [];
+            
+            if (avgSentenceLength > 15 && avgSentenceLength < 25) {
+                characteristics.push('Panjang kalimat cukup konsisten (karakteristik AI)');
+                suggestions.push('Variasi panjang kalimat untuk membuatnya lebih alami');
+            }
+            
+            if (repetitionScore > 0.1) {
+                characteristics.push('Terdapat pengulangan kata yang cukup tinggi');
+                suggestions.push('Gunakan sinonim untuk kata yang diulang');
+            }
+            
+            if (aiPhraseCount > 0) {
+                characteristics.push('Mengandung frasa yang umum digunakan AI');
+                suggestions.push('Hindari frasa yang terlalu formal dan umum');
+            }
+            
+            if (entropy < 4) {
+                characteristics.push('Keragaman karakter rendah');
+                suggestions.push('Tambah variasi dalam pemilihan kata dan struktur');
+            }
+            
+            if (characteristics.length === 0) {
+                characteristics.push('Teks sudah terlihat cukup alami');
+                suggestions.push('Pertahankan gaya penulisan yang sudah baik');
+            }
+            
+            return {
+                aiScore,
+                characteristics,
+                suggestions,
+                originalText: text
+            };
+        }
+
+        // Calculate text entropy
+        function calculateEntropy(text) {
+            const charCount = {};
+            let entropy = 0;
+            
+            for (let char of text) {
+                charCount[char] = (charCount[char] || 0) + 1;
+            }
+            
+            const textLength = text.length;
+            for (let char in charCount) {
+                const probability = charCount[char] / textLength;
+                entropy -= probability * Math.log2(probability);
+            }
+            
+            return entropy;
+        }
+
+        // Display analysis result
+        function displayAnalysisResult(result) {
+            const analysisResult = document.getElementById('analysis-result');
+            const aiScoreBar = document.getElementById('ai-score-bar');
+            const aiScoreText = document.getElementById('ai-score-text');
+            const aiCharacteristics = document.getElementById('ai-characteristics');
+            const improvementSuggestions = document.getElementById('improvement-suggestions');
+            
+            // Set AI score
+            const humanScore = 100 - result.aiScore;
+            aiScoreBar.style.width = `${result.aiScore}%`;
+            aiScoreText.textContent = `${Math.round(result.aiScore)}% AI, ${Math.round(humanScore)}% Human`;
+            
+            // Set characteristics
+            aiCharacteristics.innerHTML = '';
+            result.characteristics.forEach(char => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-chevron-right text-red-500 mr-2"></i>${char}`;
+                aiCharacteristics.appendChild(li);
+            });
+            
+            // Set suggestions
+            improvementSuggestions.innerHTML = '';
+            result.suggestions.forEach(sugg => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-lightbulb text-yellow-500 mr-2"></i>${sugg}`;
+                improvementSuggestions.appendChild(li);
+            });
+            
+            analysisResult.classList.remove('hidden');
+            document.getElementById('humanized-result').classList.add('hidden');
+        }
+
+        // Humanize text using serverless function
+        function humanizeText() {
+            const textInput = document.getElementById('text-input').value.trim();
+            
+            if (!textInput) {
+                alert('Silakan masukkan teks terlebih dahulu!');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loading').classList.remove('hidden');
+            
+            // Simulate API call with timeout
+            setTimeout(() => {
+                // Simple humanization for demo purposes
+                const humanizedText = textInput
+                    .replace(/as an ai/gi, 'from my perspective')
+                    .replace(/as a language model/gi, 'in my experience')
+                    .replace(/however, it is important to/gi, 'it is worth considering that')
+                    .replace(/additionally, it is worth noting/gi, 'also,')
+                    .replace(/in conclusion/gi, 'to sum up');
+                
+                displayHumanizedResult(humanizedText);
+                document.getElementById('loading').classList.add('hidden');
+            }, 1500);
+        }
+
+        // Display humanized result
+        function displayHumanizedResult(text) {
+            const humanizedResult = document.getElementById('humanized-result');
+            const humanizedText = document.getElementById('humanized-text');
+            
+            humanizedText.textContent = text;
+            humanizedResult.classList.remove('hidden');
+        }
+
+        // Copy humanized text to clipboard
+        function copyHumanizedText() {
+            const humanizedText = document.getElementById('humanized-text').textContent;
+            
+            navigator.clipboard.writeText(humanizedText)
+                .then(() => {
+                    alert('Teks berhasil disalin!');
+                })
+                .catch(err => {
+                    console.error('Gagal menyalin teks: ', err);
+                    alert('Gagal menyalin teks. Silakan coba manual.');
+                });
+        }
+
+        // HTML template for image to PDF tool
+        function getImg2PdfHTML() {
+            return `
+            <div class="space-y-6">
+                <div class="dropzone" id="img-dropzone">
+                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                    <p class="text-gray-600">Drag & drop gambar di sini atau klik untuk mengupload</p>
+                    <p class="text-sm text-gray-500 mt-1">Format yang didukung: JPG, PNG, GIF</p>
+                    <input type="file" id="img-input" accept="image/*" multiple class="hidden">
+                </div>
+                
+                <div class="flex items-center">
+                    <input type="checkbox" id="enhanced-mode" class="mr-2 h-4 w-4 text-blue-600">
+                    <label for="enhanced-mode" class="text-sm font-medium text-gray-700">Aktifkan Enchanted Scan Mode (grayscale, contrast, sharpen)</label>
+                </div>
+                
+                <div id="image-previews" class="preview-grid hidden"></div>
+                
+                <div class="flex justify-end">
+                    <button id="convert-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        <i class="fas fa-file-pdf mr-2"></i>Convert to PDF
+                    </button>
+                </div>
+                
+                <div id="pdf-result" class="hidden text-center">
+                    <i class="fas fa-file-pdf text-6xl text-red-500 mb-4"></i>
+                    <p class="text-gray-700">PDF berhasil dibuat!</p>
+                    <button id="download-pdf" class="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                        <i class="fas fa-download mr-2"></i>Download PDF
+                    </button>
+                </div>
+            </div>
+            `;
+        }
+
+        // Initialize image to PDF tool
+        function initImg2Pdf() {
+            const dropzone = document.getElementById('img-dropzone');
+            const fileInput = document.getElementById('img-input');
+            const convertBtn = document.getElementById('convert-btn');
+            
+            // Setup dropzone
+            dropzone.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.classList.add('active');
+            });
+            
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('active');
+            });
+            
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('active');
+                
+                if (e.dataTransfer.files.length > 0) {
+                    handleImageFiles(e.dataTransfer.files);
+                }
+            });
+            
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleImageFiles(e.target.files);
+                }
+            });
+            
+            convertBtn.addEventListener('click', convertToPdf);
+        }
+
+        // HTML template for PDF to image tool
+        function getPdf2ImgHTML() {
+            return `
+            <div class="space-y-6">
+                <div class="dropzone" id="pdf-dropzone">
+                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                    <p class="text-gray-600">Drag & drop file PDF di sini atau klik untuk mengupload</p>
+                    <input type="file" id="pdf-input" accept=".pdf" class="hidden">
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="quality-select" class="block text-sm font-medium text-gray-700 mb-1">Kualitas Output:</label>
+                        <select id="quality-select" class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                            <option value="low">Rendah (ukuran kecil)</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">Tinggi (ukuran besar)</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="format-select" class="block text-sm font-medium text-gray-700 mb-1">Format Output:</label>
+                        <select id="format-select" class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                            <option value="png">PNG (kualitas terbaik)</option>
+                            <option value="jpeg" selected>JPEG (ukuran kecil)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="pdf-info" class="hidden bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <h3 class="font-medium text-blue-800">Informasi PDF</h3>
+                    <p id="pdf-name" class="text-blue-700"></p>
+                    <p id="pdf-pages" class="text-blue-700"></p>
+                    <p id="pdf-size" class="text-blue-700"></p>
+                </div>
+                
+                <div id="page-previews" class="preview-grid hidden"></div>
+                
+                <div class="flex justify-end space-x-4">
+                    <button id="render-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        <i class="fas fa-image mr-2"></i>Render Halaman
+                    </button>
+                    
+                    <button id="download-all-btn" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        <i class="fas fa-download mr-2"></i>Download Semua
+                    </button>
+                </div>
+            </div>
+            `;
+        }
+
+        // HTML template for cloud storage tool
+        function getCloudHTML() {
+            return `
+            <div class="space-y-6" id="cloud-container">
+                <div id="auth-section">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                            <h3 class="text-lg font-medium text-blue-800 mb-4">Buat Storage Baru</h3>
+                            <form id="create-form" class="space-y-4">
+                                <div>
+                                    <label for="create-id" class="block text-sm font-medium text-gray-700 mb-1">ID Storage:</label>
+                                    <input type="text" id="create-id" required class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Masukkan ID unik">
+                                </div>
+                                <div>
+                                    <label for="create-password" class="block text-sm font-medium text-gray-700 mb-1">Password:</label>
+                                    <input type="password" id="create-password" required class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Masukkan password">
+                                </div>
+                                <div>
+                                    <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password:</label>
+                                    <input type="password" id="confirm-password" required class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Konfirmasi password">
+                                </div>
+                                <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    Buat Storage
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="bg-green-50 p-6 rounded-lg border border-green-200">
+                            <h3 class="text-lg font-medium text-green-800 mb-4">Login ke Storage</h3>
+                            <form id="login-form" class="space-y-4">
+                                <div>
+                                    <label for="login-id" class="block text-sm font-medium text-gray-700 mb-1">ID Storage:</label>
+                                    <input type="text" id="login-id" required class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Masukkan ID storage">
+                                </div>
+                                <div>
+                                    <label for="login-password" class="block text-sm font-medium text-gray-700 mb-1">Password:</label>
+                                    <input type="password" id="login-password" required class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Masukkan password">
+                                </div>
+                                <button type="submit" class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                                    Login
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="storage-section" class="hidden">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-medium text-gray-900">Manajemen File</h3>
+                        <div class="flex space-x-2">
+                            <button id="new-folder-btn" class="px-3 py-1 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 text-sm">
+                                <i class="fas fa-folder-plus mr-1"></i>Folder Baru
+                            </button>
+                            <button id="upload-file-btn" class="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm">
+                                <i class="fas fa-upload mr-1"></i>Upload File
+                            </button>
+                            <button id="logout-btn" class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 text-sm">
+                                <i class="fas fa-sign-out-alt mr-1"></i>Logout
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-100 p-2 rounded-lg mb-4">
+                        <nav class="flex" aria-label="Breadcrumb">
+                            <ol id="breadcrumb" class="flex items-center space-x-2 text-sm">
+                                <li><a href="#" data-path="/" class="text-blue-600 hover:text-blue-800">Root</a></li>
+                            </ol>
+                        </nav>
+                    </div>
+                    
+                    <div class="file-tree mb-4">
+                        <div id="file-list" class="space-y-1">
+                            <!-- File list will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                        <h4 class="font-medium text-yellow-800 mb-2">Informasi Storage</h4>
+                        <p class="text-yellow-700 text-sm">ID: <span id="storage-id"></span></p>
+                        <p class="text-yellow-700 text-sm">Dibuat pada: <span id="storage-created"></span></p>
+                        <p class="text-yellow-700 text-sm">Total file: <span id="storage-filecount"></span></p>
+                    </div>
+                </div>
+                
+                <input type="file" id="file-input" multiple class="hidden">
+            </div>
+            `;
+        }
+
+        // Initialize cloud storage tool
+        function initCloud() {
+            const createForm = document.getElementById('create-form');
+            const loginForm = document.getElementById('login-form');
+            
+            // Form event listeners
+            createForm.addEventListener('submit', handleCreateStorage);
+            loginForm.addEventListener('submit', handleLogin);
+        }
+
+        // Handle create storage form submission
+        function handleCreateStorage(e) {
+            e.preventDefault();
+            
+            const storageId = document.getElementById('create-id').value.trim();
+            const password = document.getElementById('create-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Validate inputs
+            if (!storageId) {
+                alert('ID storage tidak boleh kosong!');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('Password harus minimal 6 karakter!');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Password dan konfirmasi password tidak cocok!');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loading').classList.remove('hidden');
+            
+            // Simulate storage creation
+            setTimeout(() => {
+                alert('Storage berhasil dibuat! (Fitur lengkap memerlukan backend)');
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('create-form').reset();
+            }, 1500);
+        }
+
+        // Handle login form submission
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const storageId = document.getElementById('login-id').value.trim();
+            const password = document.getElementById('login-password').value;
+            
+            if (!storageId || !password) {
+                alert('ID storage dan password harus diisi!');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loading').classList.remove('hidden');
+            
+            // Simulate login process
+            setTimeout(() => {
+                alert('Login berhasil! (Fitur lengkap memerlukan backend)');
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('login-form').reset();
+            }, 1500);
+        }
+
+        // Handle image files for PDF conversion (simplified)
+        function handleImageFiles(files) {
+            alert(files.length + ' gambar dipilih. (Fitur lengkap memerlukan implementasi konversi)');
+        }
+
+        // Convert to PDF (simplified)
+        function convertToPdf() {
+            alert('Fitur konversi ke PDF akan dijalankan. (Fitur lengkap memerlukan implementasi konversi)');
         }
     </script>
 </body>
